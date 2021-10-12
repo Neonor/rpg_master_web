@@ -1,0 +1,5 @@
+title :: Carte Maker
+app_name :: Carte Maker
+new_map :: Carte vierge
+form_file_map :: Fichier carte (xlsx)
+list_imgs :: Liste et noms des images disponibles

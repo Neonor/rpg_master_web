@@ -1,0 +1,30 @@
+{% extends "rpgmaster/templates/base.html" %}
+{% load static %}
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1>{{ trad.title }}</h1>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="pb-3 mb-3 border-bottom">
+            <a class="btn btn-secondary" href="{% url 'cartemaker:get_new_xlsx' %}">{{ trad.new_map }}</a>
+            <a class="btn btn-secondary" href='{% url "cartemaker:list_imgs" %}'>{{ trad.list_imgs }}</a>
+        </div>
+        <div class="pb-3 mb-3 border-bottom">
+            <form method="post" action="{% url 'cartemaker:get_carte' %}" enctype="multipart/form-data">{% csrf_token %}
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">{{ trad.form_file_map }}</label>
+                    <input type="file" class="form-control" name="file">
+                </div>
+                <button type="submit" class="btn btn-secondary">{{ trad.submit|title }}</button>
+            </form>
+        </div>
+        <div>
+            
+        </div>
+    </div>
+    <div class="col">
+        <a href='{% static "imgs/exemple_carte.png" %}' target="_blank"><img src='{% static "imgs/exemple_small_carte.png" %}' ></a>
+    </div>
+</div>
+{% endblock %}

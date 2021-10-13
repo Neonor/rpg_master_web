@@ -10,15 +10,11 @@ from .lib_carte_maker import new_xlsx,make_carte
 from lib import reponses
 
 @reponses.template('cartemaker/templates/home.html')
-@reponses.menu
-@reponses.trad
 def index(request):
     return
  
 
 @reponses.template('cartemaker/templates/list_imgs.html')
-@reponses.menu
-@reponses.trad
 def list_imgs(request):
     imgs = {}
     for enter in [enter for enter in listdir("static/imgs/list_map") if ".png" in enter]:

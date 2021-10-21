@@ -23,4 +23,5 @@ urlpatterns = i18n_patterns(
     path('robots.txt', views.robots, name='robots'),
     path('cartemaker/', include('cartemaker.urls')),
     path('admin/', admin.site.urls),
+    path('new_group', views.new_group, name='new_group'),
 )

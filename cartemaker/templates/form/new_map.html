@@ -1,0 +1,9 @@
+{% load i18n %}
+<form>
+	{% csrf_token %}
+	<fieldset>
+	    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	    <table class="table">{{ new_group }}</table>
+	</fieldset>
+	<input type="submit" class="btn btn-secondary" value='{% trans "submit" %}'>
+</form>

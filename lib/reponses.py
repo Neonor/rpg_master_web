@@ -3,21 +3,43 @@ from django.template import loader
 from django.conf import settings
 from django.urls import resolve,reverse
 
-from importlib import reload
-
-# from . import traduction
+from django.utils.translation import gettext_lazy as _
 
 from menus import menu_left
 
 
-def template(link_template):
+def template(link_template,css=[],js=[]):
     template = loader.get_template(link_template)
     def http_reponse(func):
         def wrapper(request):
-            context = func(request)
+            context = func(request) or {}
+            menu = [[name,link,icon,reverse(link) == request.path] for name,link,icon,*_ in menu_left]
+            context["menu_enter"] = menu
+            context["css"] = css
+            context["js"] = js
             return HttpResponse(template.render(context, request))
         return wrapper
     return http_reponse
+
+class Render():
+    def __init__(self):
+        self.__css = []
+        self.__js = []
+
+
+
+    def css(self,*css):
+        self.__css = list(css)
+        def wrap(func):
+            return func
+        return wrap
+
+    def js(self,*js):
+        self.__js = list(js)
+        def wrap(func):
+            return func
+        return wrap    
+
 
 # def trad(func):
 #     def wrapper(request):

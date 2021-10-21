@@ -1,0 +1,16 @@
+#carte{
+	background-color: black;
+	overflow-x: auto;
+	overflow-y: auto;
+}
+.hexagone{
+	width: 0px;
+	height: 0px;
+}
+.hexagone div{
+	width: 100px;
+	height: auto;
+}
+.hexagone div img {
+	width: 100%;
+}

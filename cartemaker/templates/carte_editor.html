@@ -1,0 +1,32 @@
+{% extends "rpgmaster/templates/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block body %}
+
+<div class="row">
+    <div id="carte" class="col">
+		<div x=0 y=0 class="hexagone" ><div><img src='{% static "cache/bg/scrub.png" %}'></div></div>
+		<div x=1 y=0 class="hexagone" ><div><img src='{% static "cache/bg/scrub.png" %}'></div></div>
+		<div x=0 y=1 class="hexagone" ><div><img src='{% static "cache/bg/scrub.png" %}'></div></div>
+		<div x=0 y=-1 class="hexagone" ><div><img src='{% static "cache/bg/scrub.png" %}'></div></div>
+		<div x=-1 y=0 class="hexagone" ><div><img src='{% static "cache/bg/scrub.png" %}'></div></div>
+		<div x=-1 y=1 class="hexagone" ><div><img src='{% static "cache/bg/scrub.png" %}'></div></div>
+		<div x=1 y=-1 class="hexagone" ><div><img src='{% static "cache/bg/scrub.png" %}'></div></div>
+		<div x=0 y=0 class="hexagone" ><div><img src='{% static "cache/obj/city.png" %}'></div></div>
+    </div>
+    <div class="col-md-auto">
+    	<div class="row">
+    		position
+    		BG
+    		OBJ
+    	</div>
+    	<div class="row">
+    	{% include "cartemaker/templates/form/bg_hexagone.html" %}
+    	</div>
+    	
+    	
+    </div>
+  </div>
+
+
+{% endblock %}

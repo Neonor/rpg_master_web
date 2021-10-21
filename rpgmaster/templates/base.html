@@ -7,10 +7,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
 
+        
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        {% for css_file in css %}
+			<link href='{% static css_file %}' rel="stylesheet">
+        {% endfor %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+        <script src="{% static 'base.js' %}"></script>
+        {% for js_file in js %}
+        	<script src="{% static js_file %}"></script>
+        {% endfor %}
         <meta name="theme-color" content="#7952b3">
 
         <style>
@@ -31,10 +39,16 @@
 
         <link href='{% static "dashboard.css" %}' rel="stylesheet">
 
-        <title>{{ trad.title }}</title>
+        <title>{% trans "title" context "rpgmaster" %}</title>
         <link rel="icon" type="image/png" href='{% static "imgs/list_map/icon__beer.png" %}'/>
     </head>
     <body>
+	    <div id="dialog">
+	    	<div class="card" >
+	    		<div class="card-header"><button id="close_dialog" style="float: right;" class="btn btn-secondary btn-sm"><span data-feather="x"></span></button><span id="dialog_title"></span></div>
+				<div class="card-body"></div>
+			</div>
+		</div>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
             <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{% url 'home' %}">{{ trad.site_name }}</a>
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +64,7 @@
 
         <div class="container-fluid">
             <div class="row">
-                {{ menu }}
+                {% include "rpgmaster/templates/menu.html" %}
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">{% block body %}{% endblock %}</main>
                 <script>feather.replace()</script>
             </div>

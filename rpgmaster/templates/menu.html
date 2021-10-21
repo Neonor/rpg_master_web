@@ -1,9 +1,11 @@
+{% load i18n %}
+
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             {% for name,link,icon,actif in menu_enter %}
                 <li class="nav-item"><a class="nav-link{% if actif %} active{% endif %}" aria-current="page" href="{% url link %}">
-                    <span data-feather="{{ icon }}"></span>{{ name|title }}
+                    <span data-feather="{{ icon }}"></span>{% trans name|title %}
                 </a></li>
             {% endfor %}
         </ul>

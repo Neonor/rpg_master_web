@@ -1,20 +1,56 @@
-from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
-import mimetypes
+
+from cartemaker.forms import BgHexagone,FromNewHexaMap
+from cartemaker.cacher import cache_bg
+
+from rpgmaster.models import GroupUser,Group
+from cartemaker.models import HexaMap
 
 from os import listdir
 
-from .lib_carte_maker import new_xlsx,make_carte
-from lib import reponses
+from lib.reponses import template
 
-@reponses.template('cartemaker/templates/home.html')
+@template('cartemaker/templates/home.html')
 def index(request):
-    return
+    mygroups = ingroups = []
+    if request.user.is_authenticated:
+        group_user = GroupUser.objects.filter(USER=request.user)
+        mygroups = [gu.GROUP for gu in group_user if gu.ADMIN]
+        ingroups = [gu.GROUP for gu in group_user if not gu.ADMIN]
+    return {"mygroups":mygroups,"ingroups":ingroups}
+
+def new_map(request,group_id):
+    if request.method == "POST":
+        f_new_map = FromNewHexaMap(request.POST)
+        if f_new_map.is_valid():
+            new_map = f_new_map.save(commit=False)
+            new_map.GROUP = Group.objects.filter(pk=group_id).first()
+            new_map.save()
+            return HttpResponse("")
+
+    template = loader.get_template('cartemaker/templates/form/new_map.html')
+    form_new_group = FromNewHexaMap()
+    return HttpResponse(template.render({"new_group":form_new_group}, request))
+
+@template('cartemaker/templates/carte_editor.html',["carte.css"],["carte.js"])
+def carte_editor(request):
+    form_bg_hexa = BgHexagone()
+    if request.method == "POST":
+        form_bg_hexa = BgHexagone(request.POST)
+        if form_bg_hexa.is_valid():
+            path_hexa = cache_bg(form_bg_hexa.cleaned_data["PATH_FILE"],
+                     form_bg_hexa.cleaned_data["BG_COLOR"],
+                     form_bg_hexa.cleaned_data["BD_COLOR"])
+            print(form_bg_hexa.data,path_hexa)
+    
+    
+    
+    return {"bg_hexagone":form_bg_hexa}
  
 
-@reponses.template('cartemaker/templates/list_imgs.html')
+@template('cartemaker/templates/list_imgs.html')
 def list_imgs(request):
     imgs = {}
     for enter in [enter for enter in listdir("static/imgs/list_map") if ".png" in enter]:
@@ -26,20 +62,3 @@ def list_imgs(request):
         imgs[enter].sort()
     return {"imgs":imgs}
 
-def get_new_xlsx(request):
-    response = HttpResponse(new_xlsx().read(),
-                            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename=carte.xlsx'
-    return response
-
-def get_carte(request):
-    if request.method == 'POST' and "file" in request.FILES:
-        img_byte_arr = make_carte(request.FILES["file"])
-        size = len(img_byte_arr.getvalue())
-
-        content_type = mimetypes.guess_type("filename.png")[0]  # Use mimetypes to get file type
-        response     = HttpResponse(img_byte_arr,content_type=content_type)  
-        response['Content-Length'] = size
-        response['Content-Disposition'] = "attachment; filename=carte.png"
-        return response
-    return HttpResponseRedirect(reverse('cartemaker:index'))

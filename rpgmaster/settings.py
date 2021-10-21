@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import cartemaker
+import rpgmaster
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +22,7 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
-CARTEMAKER_CACHE_FOLDER = BASE_DIR / "cartemaker" / "cache"
+CARTEMAKER_CACHE_FOLDER = BASE_DIR / "cartemaker" / "static" / "cache"
 
 
 # Quick-start development settings - unsuitable for production
@@ -123,13 +125,19 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+    BASE_DIR / "cartemaker" / 'locale',
+]
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+STATIC_ROOT = BASE_DIR / "static_root"
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "rpgmaster" / "static",
+    BASE_DIR / "cartemaker" / "static",
 ]
 
 # Default primary key field type

@@ -3,26 +3,38 @@
 {% load i18n %}
 {% block body %}
 
-{% get_current_language as LANGUAGE_CODE %}
-<!-- Current language: {{ LANGUAGE_CODE }} -->
-
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1>{% translate "title" %}</h1>
+    <h1>{% translate "title" context request.resolver_match.app_name %}</h1>
 </div>
 <div class="row">
     <div class="col">
-        <div class="pb-3 mb-3 border-bottom">
-            <a class="btn btn-secondary" href="{% url 'cartemaker:get_new_xlsx' %}">{% translate "new_map" %}</a>
-            <a class="btn btn-secondary" href='{% url "cartemaker:list_imgs" %}'>{% translate "list_imgs" %}</a>
+    	<div class="pb-3 mb-3 border-bottom">
+    		{% if mygroups %}
+	    		<b>{% trans "mygroups" %} <span link='{% url "new_group" %}' name='{% trans "new_group"|title %}' class="dialog ibtn" data-feather="plus-circle"></span></b>
+	    		<ul>
+		    		{% for group in mygroups %}
+		    			<li>{{ group.NAME }}  <span link='{% url "cartemaker:new_map" group_id=group.pk %}' name='{% trans "new_map"|title %}' class="dialog ibtn" data-feather="plus-circle"></span></li>
+		    			<ul>
+		        			<li>Carte 1</li>
+		        		</ul>
+		    		{% endfor %}
+	    		</ul>
+    		{% endif %}
+        	
+        	{% if ingroups %}
+	        	<b>{% trans "in_groups" %}</b>
+	        	<ul>
+		        	{% for group in ingroups %}
+			        	<li>Groupe 2</li>
+		        		<ul>
+		        			<li>Carte 2</li>
+		        		</ul>
+		        	{% endfor %}
+	        	</ul>
+        	{% endif %}
         </div>
         <div class="pb-3 mb-3 border-bottom">
-            <form method="post" action="{% url 'cartemaker:get_carte' %}" enctype="multipart/form-data">{% csrf_token %}
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">{% translate "form_file_map" %}</label>
-                    <input type="file" class="form-control" name="file">
-                </div>
-                <button type="submit" class="btn btn-secondary">{% translate "submit"|title %}</button>
-            </form>
+        	Nouvelle Carte dans le groupe
         </div>
         <div>
             

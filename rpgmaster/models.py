@@ -12,7 +12,7 @@ class Group(m.Model):
     # PERMISSIONS=m.JSONField(default=[])
 
 class GroupUser(m.Model):
-    GROUP=Group()
-    USER=User()
+    GROUP=m.ForeignKey(Group, on_delete=m.CASCADE)
+    USER=m.ForeignKey(User, on_delete=m.CASCADE)
     ADMIN=m.BooleanField(default=False)
     

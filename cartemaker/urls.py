@@ -7,7 +7,7 @@ app_name = 'cartemaker'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('get_new_xlsx', views.get_new_xlsx, name='get_new_xlsx'),
-    path('get_carte', views.get_carte, name='get_carte'),
+    path('carte_editor', views.carte_editor, name='carte_editor'),
+    path('new_map/<int:group_id>', views.new_map, name='new_map'),
     path('list_imgs', views.list_imgs, name='list_imgs'),
 ]

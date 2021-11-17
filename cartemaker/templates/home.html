@@ -9,8 +9,8 @@
 <div class="row">
     <div class="col">
     	<div class="pb-3 mb-3 border-bottom">
+    		<b>{% trans "mygroups" %} <span link='{% url "new_group" %}' name='{% trans "new_group"|title %}' class="dialog ibtn" data-feather="plus-circle"></span></b>
     		{% if mygroups %}
-	    		<b>{% trans "mygroups" %} <span link='{% url "new_group" %}' name='{% trans "new_group"|title %}' class="dialog ibtn" data-feather="plus-circle"></span></b>
 	    		<ul>
 		    		{% for group in mygroups %}
 		    			<li>{{ group.NAME }}  <span link='{% url "cartemaker:new_map" group_id=group.pk %}' name='{% trans "new_map"|title %}' class="dialog ibtn" data-feather="plus-circle"></span></li>
